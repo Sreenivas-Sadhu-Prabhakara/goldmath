@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'">
+  <title>goldmath — gold jewellery price calculator: making charges, wastage &amp; GST</title>
+  <meta name="description" content="Rebuild a jeweller's gold price from weight, BIS purity, board rate, wastage, making charges and GST — and see exactly which rupees are negotiable. Private, offline, tells no one what you're pricing.">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://sreenivas-sadhu-prabhakara.github.io/goldmath/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Sreenivas Sadhu Prabhakara">
+  <meta name="keywords" content="gold jewellery price calculator, making charges calculator, gold rate calculator India, wastage charges gold, GST on gold jewellery, BIS hallmark purity, 916 gold price, gold buyback value, negotiable making charges">
+  <meta name="theme-color" content="#241711" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F6EEDF" media="(prefers-color-scheme: light)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="goldmath">
+  <meta property="og:title" content="goldmath — gold jewellery price calculator: making charges, wastage &amp; GST">
+  <meta property="og:description" content="Rebuild the jeweller's quote at the counter and see exactly which rupees are negotiable. Splits your bill into FIXED (metal + GST) and NEGOTIABLE (making + wastage).">
+  <meta property="og:url" content="https://sreenivas-sadhu-prabhakara.github.io/goldmath/">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:image" content="https://sreenivas-sadhu-prabhakara.github.io/goldmath/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="goldmath — a debossed 916 hallmark punch above a fixed / negotiable split bar">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="goldmath — gold jewellery price calculator: making charges, wastage &amp; GST">
+  <meta name="twitter:description" content="Rebuild the jeweller's quote at the counter and see exactly which rupees are negotiable. Private, offline.">
+  <meta name="twitter:image" content="https://sreenivas-sadhu-prabhakara.github.io/goldmath/og-image.png">
+  <meta name="twitter:image:alt" content="goldmath — a debossed 916 hallmark punch above a fixed / negotiable split bar">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <!-- Structured data (data block; not affected by script-src) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "goldmath",
+    "description": "A gold jewellery price calculator that rebuilds a jeweller's quote from gross weight, BIS purity, board rate, wastage, making charges and GST, then splits it into FIXED (metal value + GST) and NEGOTIABLE (making + wastage). Also shows honest buy-back value. Runs fully offline.",
+    "url": "https://sreenivas-sadhu-prabhakara.github.io/goldmath/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any (modern web browser)",
+    "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+    "isAccessibleForFree": true,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+    "license": "https://opensource.org/licenses/MIT",
+    "author": { "@type": "Person", "name": "Sreenivas Sadhu Prabhakara" },
+    "softwareVersion": "0.1.0",
+    "featureList": [
+      "Rebuild a gold jewellery quote from weight, purity, rate, wastage, making and GST",
+      "Split the quote into FIXED (metal + GST) and NEGOTIABLE (making + wastage)",
+      "BIS IS 1417 purity picker (14K585 to 24K995)",
+      "Two GST conventions: composite 3% vs split 3% + 5% on making",
+      "Verify mode: back-solve the implied making charge from a shop's total",
+      "Buy-back / melt-value estimate excluding making, wastage and GST",
+      "Two-quote side-by-side comparison",
+      "Runs 100% offline in your browser — no network, ever"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How are gold jewellery making charges calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Making charges are quoted either as rupees per gram on the gross weight or as a percentage of the metal value. goldmath supports both, and treats making charges plus wastage as the NEGOTIABLE part of your bill — the rupees that can move in a haggle — while metal value and GST are FIXED."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What GST applies to gold jewellery in India?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Gold jewellery (HSN 7113) attracts 3% GST on the metal value. When making charges are billed separately as job-work (SAC 9988) they attract 5%. Many bills instead treat the whole thing as a composite supply taxed at 3%. goldmath lets you pick whichever convention your bill uses and prints the assumption. Rates are as of 2026-07-22 — verify against your invoice."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does goldmath use 916 and not 22/24 for 22K gold?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Under BIS standard IS 1417, hallmarked 22-carat gold is stamped 916 (a certified minimum of 91.6% purity), not 22/24 = 91.667%. goldmath uses the stamped fineness, so metal value is a slightly conservative, honest estimate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does goldmath fetch live gold rates or track what I price?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No — never. You type the rate from the shop's board or the day's newspaper. The page's Content-Security-Policy sets connect-src 'none', so the browser itself physically blocks every network request. Nothing about what you are pricing can leave your device; saved quotes live only in this browser's localStorage."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#builder">Skip to the calculator</a>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <div class="hero__inner">
+      <div class="brand">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#C1552F"/>
+          <rect x="3" y="3" width="26" height="26" rx="5" fill="none" stroke="#8A3B21" stroke-width="1.6"/>
+          <text x="16" y="21.5" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="13" letter-spacing="-0.5" fill="#FCF7EC">916</text>
+        </svg>
+        <span class="brand__word">goldmath</span>
+      </div>
+      <p class="eyebrow">BIS purity &middot; wastage &middot; making &middot; GST &middot; offline</p>
+      <h1 class="hero__title">Gold jewellery price calculator&nbsp;&mdash; making charges, wastage &amp; GST</h1>
+      <p class="hero__lede">
+        Rebuild the jeweller's quote at the counter from gross weight, hallmark purity and the
+        board rate you type in&mdash;then see exactly which rupees are <span class="hl hl--neg">negotiable</span>
+        and which are <span class="hl hl--fix">fixed</span>. No live rates, no tracking; the page's
+        own security policy blocks every network call.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ BUILDER ============ -->
+    <section class="builder" id="builder" aria-labelledby="builderHeading">
+      <h2 class="section__heading" id="builderHeading">Build the quote</h2>
+
+      <form class="grid" id="quoteForm" novalidate>
+        <fieldset class="panel">
+          <legend class="panel__legend">Metal</legend>
+          <div class="field">
+            <label for="grossGrams">Gross weight (grams)</label>
+            <input type="number" id="grossGrams" name="grossGrams" min="0" step="0.001" value="10" inputmode="decimal">
+          </div>
+          <div class="field">
+            <label for="purity">BIS purity</label>
+            <select id="purity" name="purity"></select>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel">
+          <legend class="panel__legend">Board rate</legend>
+          <div class="field">
+            <label for="rateRupees">Rate you were quoted (₹)</label>
+            <input type="number" id="rateRupees" name="rateRupees" min="0" step="0.01" value="10000" inputmode="decimal">
+          </div>
+          <div class="field">
+            <label for="rateBasis">Rate is per</label>
+            <select id="rateBasis" name="rateBasis">
+              <option value="gram">1 gram</option>
+              <option value="per10g">10 grams</option>
+              <option value="tola">1 tola (11.6638 g)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="rateQuoted">Rate quoted as</label>
+            <select id="rateQuoted" name="rateQuoted">
+              <option value="1000">24K (pure) rate</option>
+              <option value="916">22K (916) rate</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel">
+          <legend class="panel__legend">Wastage (VA)</legend>
+          <div class="field">
+            <label for="wastagePct">Wastage %</label>
+            <input type="number" id="wastagePct" name="wastagePct" min="0" step="0.1" value="8" inputmode="decimal">
+          </div>
+          <p class="panel__hint">Extra weight-% charged at the metal rate. 8% on 10&nbsp;g prices 10.8&nbsp;g of metal.</p>
+        </fieldset>
+
+        <fieldset class="panel">
+          <legend class="panel__legend">Making charges</legend>
+          <div class="segmented" role="radiogroup" aria-label="Making charge mode">
+            <label class="seg"><input type="radio" name="makingMode" value="per_gram" checked><span>₹ / gram</span></label>
+            <label class="seg"><input type="radio" name="makingMode" value="pct"><span>% of metal</span></label>
+          </div>
+          <div class="field">
+            <label for="makingVal">Making value</label>
+            <input type="number" id="makingVal" name="makingVal" min="0" step="0.01" value="550" inputmode="decimal">
+          </div>
+          <label class="toggle" id="afterWastageToggle" hidden>
+            <input type="checkbox" name="makingAfterWastage"><span>Apply making&nbsp;% <em>after</em> adding wastage</span>
+          </label>
+        </fieldset>
+
+        <fieldset class="panel">
+          <legend class="panel__legend">Stones / other</legend>
+          <div class="field">
+            <label for="stonesRupees">Flat stone &amp; other charges (₹)</label>
+            <input type="number" id="stonesRupees" name="stonesRupees" min="0" step="0.01" value="0" inputmode="decimal">
+          </div>
+          <p class="panel__hint">Passed through as-is; kept out of the metal maths.</p>
+        </fieldset>
+
+        <fieldset class="panel">
+          <legend class="panel__legend">GST convention</legend>
+          <div class="segmented segmented--col" role="radiogroup" aria-label="GST convention">
+            <label class="seg"><input type="radio" name="gstConvention" value="composite" checked><span>Composite &mdash; 3% on the full value</span></label>
+            <label class="seg"><input type="radio" name="gstConvention" value="split"><span>Split &mdash; 3% goods + 5% making</span></label>
+          </div>
+          <p class="panel__hint">Both are real billing structures. The active one is printed on the breakdown below.</p>
+        </fieldset>
+
+        <fieldset class="panel">
+          <legend class="panel__legend">Display</legend>
+          <div class="segmented" role="radiogroup" aria-label="Number grouping">
+            <label class="seg"><input type="radio" name="grouping" value="indian" checked><span>Indian (lakh/crore)</span></label>
+            <label class="seg"><input type="radio" name="grouping" value="plain"><span>Plain (1,000s)</span></label>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+    <!-- ============ RESULT ============ -->
+    <section class="result" id="result" aria-labelledby="resultHeading" aria-live="polite">
+      <h2 class="section__heading" id="resultHeading">The breakdown</h2>
+
+      <div class="split">
+        <div class="split__headline">
+          <span class="split__label">Negotiable</span>
+          <span class="split__big" id="negotiableBig">₹0.00</span>
+          <span class="split__sub" id="negotiablePct">0% of this quote</span>
+        </div>
+        <div class="split__bar" role="img" aria-label="Fixed versus negotiable share of the quote" id="splitBar">
+          <div class="split__seg split__seg--fix" id="segFix"></div>
+          <div class="split__seg split__seg--neg" id="segNeg"></div>
+        </div>
+        <div class="split__legend">
+          <span class="tag tag--fix">Fixed <span id="fixedTotal">₹0.00</span></span>
+          <span class="tag tag--neg">Negotiable <span id="negTotal">₹0.00</span></span>
+        </div>
+        <p class="split__assumption" id="gstAssumption"></p>
+      </div>
+
+      <ul class="lines" id="lines" aria-label="Line-item breakdown"></ul>
+
+      <div class="grand">
+        <span>Total quote</span>
+        <span class="grand__num" id="grandTotal">₹0.00</span>
+      </div>
+
+      <div class="result__actions">
+        <button type="button" class="btn btn--ghost" id="saveBtn">Save this quote</button>
+        <button type="button" class="btn btn--ghost" id="copyBtn">Copy summary</button>
+        <button type="button" class="btn btn--ghost" id="printBtn">Print / PDF</button>
+        <span class="result__note" id="copyNote" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <!-- ============ VERIFY MODE ============ -->
+    <section class="verify" id="verify" aria-labelledby="verifyHeading">
+      <h2 class="section__heading" id="verifyHeading">Verify a bill</h2>
+      <p class="section__lede">Type the total from the shop's bill and goldmath back-solves the implied making charge &mdash; the number to open your haggle with. Uses the metal, wastage, purity, rate and GST convention set above.</p>
+      <form class="verify__form" id="verifyForm" novalidate>
+        <div class="field">
+          <label for="shopTotal">Total on the shop's bill (₹)</label>
+          <input type="number" id="shopTotal" name="shopTotal" min="0" step="0.01" inputmode="decimal">
+        </div>
+        <button type="submit" class="btn btn--primary">Back-solve making</button>
+      </form>
+      <p class="verify__out" id="verifyOut" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- ============ BUY-BACK ============ -->
+    <section class="buyback" id="buyback" aria-labelledby="buybackHeading">
+      <h2 class="section__heading" id="buybackHeading">Buy-back / melt value</h2>
+      <p class="section__lede">The melt value of the same ornament &mdash; net weight &times; fineness &times; rate, minus a deduction you set. This <strong>excludes making, wastage and GST</strong>: the honest reason making charges are money you never see again. It is a reference ceiling; real offers usually deduct more.</p>
+      <form class="buyback__form" id="buybackForm" novalidate>
+        <div class="field">
+          <label for="netGrams">Net gold weight (g)</label>
+          <input type="number" id="netGrams" name="netGrams" min="0" step="0.001" value="10" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label for="deductionPct">Shop deduction %</label>
+          <input type="number" id="deductionPct" name="deductionPct" min="0" max="100" step="0.1" value="5" inputmode="decimal">
+        </div>
+      </form>
+      <div class="buyback__out">
+        <span>Estimated melt value</span>
+        <span class="buyback__num" id="buybackNum">₹0.00</span>
+      </div>
+    </section>
+
+    <!-- ============ COMPARE ============ -->
+    <section class="compare" id="compare" aria-labelledby="compareHeading">
+      <h2 class="section__heading" id="compareHeading">Compare two shops</h2>
+      <p class="section__lede">Save the current quote as A, change your inputs, then save as B to see which shop's making + wastage is higher and by how much.</p>
+      <div class="compare__slots">
+        <button type="button" class="btn btn--ghost" id="setABtn">Set current as Quote A</button>
+        <button type="button" class="btn btn--ghost" id="setBBtn">Set current as Quote B</button>
+        <button type="button" class="btn btn--ghost" id="clearCmpBtn">Clear</button>
+      </div>
+      <div class="compare__out" id="compareOut"></div>
+    </section>
+
+    <!-- ============ SAVED QUOTES ============ -->
+    <section class="saved" id="saved" aria-labelledby="savedHeading">
+      <h2 class="section__heading" id="savedHeading">Saved quotes</h2>
+      <ul class="saved__list" id="savedList"></ul>
+      <p class="saved__empty" id="savedEmpty">No saved quotes yet. Build a quote above and press &ldquo;Save this quote&rdquo;.</p>
+    </section>
+
+    <!-- ============ REFERENCE CARD ============ -->
+    <section class="reference" id="reference" aria-labelledby="refHeading">
+      <h2 class="section__heading" id="refHeading">The constants, cited</h2>
+      <p class="section__lede">Every number in the maths comes from this card. Each fact carries its source and the date it was verified. <span id="asOfLine"></span></p>
+      <div class="reference__grid" id="referenceGrid"></div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="foot">
+    <div class="foot__inner">
+      <p class="foot__disclaimer">
+        <strong>A negotiation reference, not financial, investment, or tax advice.</strong>
+        goldmath uses no live gold rate&mdash;you type the rate from the shop's board. Billing conventions
+        vary by shop, region and state; GST figures are as of the build date (see the reference card) and
+        hallmarked fineness is a certified <em>minimum</em>, so metal value is a slightly conservative
+        estimate. Compare your actual invoice line by line and verify anything that matters.
+      </p>
+      <p class="foot__meta">
+        <span>Works 100% offline</span><span class="foot__dot">&middot;</span>
+        <span>No network, no accounts, no tracking</span><span class="foot__dot">&middot;</span>
+        <span>MIT&nbsp;License</span><span class="foot__dot">&middot;</span>
+        <span>&copy; 2026 Sreenivas&nbsp;Sadhu&nbsp;Prabhakara</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="data/facts.js" defer></script>
+  <script src="data/engine.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>

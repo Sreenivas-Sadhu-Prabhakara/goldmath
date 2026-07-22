@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="goldmath">
+  <rect width="32" height="32" rx="7" fill="#C1552F"/>
+  <rect x="3" y="3" width="26" height="26" rx="5" fill="none" stroke="#8A3B21" stroke-width="1.6"/>
+  <text x="16" y="21.5" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="13" letter-spacing="-0.5" fill="#FCF7EC">916</text>
+</svg>
