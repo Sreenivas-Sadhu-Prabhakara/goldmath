@@ -11,7 +11,7 @@
   --ink:       #33251A;   /* kiln-smoke brown ink */
   --ink-soft:  #6B5842;
   --line:      #DAC7A8;
-  --accent:    #C1552F;   /* terracotta — negotiable */
+  --accent:    #B04A26;   /* terracotta — negotiable (darkened so cream text clears WCAG-AA 4.5:1) */
   --accent-deep:#8A3B21;  /* burnt clay */
   --fixed:     #4A382A;   /* kiln-brown — fixed chips (AA on cream) */
   --neg-ink:   #FBF3E8;   /* text on terracotta chip */
